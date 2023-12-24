@@ -1,12 +1,14 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
+
+import MealList from "../components/MealList";
+import { MEALS } from "../data/dummy-data";
 
 const FavouritesScreen = () => {
-  return (
-    <View>
-      <Text>FavouritesScreen</Text>
-    </View>
-  );
+  const favMeals = useSelector((state) => state.favourites.favourateMeals);
+
+  const displayedMeals = MEALS.filter((meal) => favMeals.includes(meal.id));
+  return <MealList displayedMeals={displayedMeals} />;
 };
 
 export default FavouritesScreen;

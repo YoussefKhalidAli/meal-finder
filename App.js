@@ -13,6 +13,8 @@ import CategoryScreen from "./screens/CategoryScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import MealContentScreen from "./screens/MealContentScreen";
 import FavouritesScreen from "./screens/FavouritesScreen";
+import { Provider } from "react-redux";
+import { store } from "./store/Store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -60,28 +62,33 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#4e3213",
-            },
-            contentStyle: {
-              backgroundColor: "#7c5b39",
-            },
-            headerTintColor: "white",
-            headerTitleAlign: "center",
-          }}
-        >
-          <Stack.Screen
-            name="MealsCategories"
-            component={DrawerNavigation}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
-          <Stack.Screen name="MealContent" component={MealContentScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#4e3213",
+              },
+              contentStyle: {
+                backgroundColor: "#7c5b39",
+              },
+              headerTintColor: "white",
+              headerTitleAlign: "center",
+            }}
+          >
+            <Stack.Screen
+              name="MealsCategories"
+              component={DrawerNavigation}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="MealsOverview"
+              component={MealsOverviewScreen}
+            />
+            <Stack.Screen name="MealContent" component={MealContentScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 }

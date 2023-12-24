@@ -13,14 +13,21 @@ import Subtitle from "../components/MealDetail/Subtitle";
 import MealDetails from "../components/MealDetails";
 import { MEALS } from "../data/dummy-data";
 import IconButton from "../components/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavourite, removeFavourite } from "../store/FavouritesSlice";
 
 function MealDetailScreen({ route, navigation }) {
+  const dispatch = useDispatch();
+  const favMeals = useSelector((state) => state.favourites.favourateMeals);
   const mealId = route.params.mealId;
-
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
   function headerButtonPressHandler() {
-    console.log("Pressed!");
+    if (favMeals.includes(mealId)) {
+      dispatch(removeFavourite({ id: mealId }));
+    } else {
+      dispatch(addFavourite({ id: mealId }));
+    }
   }
 
   useLayoutEffect(() => {
@@ -28,7 +35,7 @@ function MealDetailScreen({ route, navigation }) {
       headerRight: () => {
         return (
           <IconButton
-            icon="heart"
+            icon={favMeals.includes(mealId) ? "heart" : "heart-outline"}
             color="white"
             onPress={headerButtonPressHandler}
           />
